@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halima Gadgets | Next-Gen Hub</title>
+    
+    <!-- Tailwind CSS & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'float-slow': 'float-slow 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+                        },
+                        'float-slow': {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-15px) rotate(1deg)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Glassmorphism Global Overrides */
+        .glass {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* Modern Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #0f766e; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #14b8a6; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 font-sans antialiased transition-colors duration-300">
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500 z-[100] transition-all duration-700 w-0"></div>
+
+    <!-- Interactive Background Glow Blobs -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-1/4 -left-20 w-96 h-96 bg-teal-400/20 dark:bg-teal-900/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob"></div>
+        <div class="absolute top-1/3 -right-20 w-96 h-96 bg-indigo-400/20 dark:bg-indigo-900/30 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-10 left-1/3 w-96 h-96 bg-emerald-400/20 dark:bg-emerald-900/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="sticky top-0 z-50 shadow-sm glass transition-all duration-300">
+        <section class="max-w-7xl mx-auto p-4 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold tracking-wider bg-gradient-to-r from-teal-600 to-cyan-500 dark:from-teal-400 dark:to-cyan-300 bg-clip-text text-transparent">
+                <a href="#hero">HALIMA GADGETS</a>
+            </h1>
+            
+            <div class="flex items-center space-x-6">
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8 text-sm font-semibold tracking-wide uppercase" aria-label="main">
+                    <a href="#trending" class="hover:text-teal-500 transition-colors">Trending</a>
+                    <a href="#stats" class="hover:text-teal-500 transition-colors">Metrics</a>
+                    <a href="#gadgets" class="hover:text-teal-500 transition-colors">All Gadgets (64)</a>
+                    <a href="#contact" class="hover:text-teal-500 transition-colors">Contact</a>
+                </nav>
+
+                <!-- Dark/Light Mode Switcher Toggle Button -->
+                <button id="theme-toggle" class="p-2 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 hover:scale-110 transition-transform focus:outline-none" aria-label="Theme Toggle">
+                    <span id="theme-icon" class="text-lg">🌙</span>
+                </button>
+
+                <!-- Mobile Menu Hamburger Button -->
+                <button id="mobile-open-button" class="text-2xl md:hidden focus:outline-none hover:text-teal-500 transition-colors" aria-label="Toggle Menu">
+                    &#9776;
+                </button>
+            </div>
+        </section>
+
+        <!-- Mobile Dropdown Nav Menu -->
+        <section id="mobile-menu" class="hidden absolute top-full left-0 w-full glass shadow-xl md:hidden border-t dark:border-slate-800/80">
+            <nav class="flex flex-col items-center py-6 space-y-4 font-bold text-lg" aria-label="mobile">
+                <a href="#trending" class="w-full text-center py-2 hover:bg-teal-500/10 transition-colors">Trending</a>
+                <a href="#stats" class="w-full text-center py-2 hover:bg-teal-500/10 transition-colors">Metrics</a>
+                <a href="#gadgets" class="w-full text-center py-2 hover:bg-teal-500/10 transition-colors">All Gadgets</a>
+                <a href="#contact" class="w-full text-center py-2 hover:bg-teal-500/10 transition-colors">Contact</a>
+            </nav>
+        </section>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto p-4 relative z-10 space-y-32">
+        
+        <!-- Hero Section with Mouse Parallax Target Box -->
+        <section id="hero" class="min-h-[80vh] flex flex-col lg:flex-row items-center justify-between gap-12 py-12 scroll-mt-24">
+            <article class="lg:w-1/2 text-center lg:text-left space-y-6">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 text-xs font-bold tracking-widest uppercase">
+                    <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span> Now Live: Silicon Version 2026
+                </div>
+                <h2 class="text-5xl sm:text-7xl font-black tracking-tight leading-[1.15]">
+                    Tomorrow's Tech, <br>
+                    <span class="bg-gradient-to-r from-teal-500 via-cyan-500 to-indigo-500 bg-clip-text text-transparent">Engineered Today.</span>
+                </h2>
+                <p class="text-lg text-slate-600 dark:text-slate-400 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                    Discover innovations that redefine physical limits. Explore our pristine curated selection of premium glassware, sleek peripherals, and decentralized smart assets.
+                </p>
+                <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+                    <a href="#trending" class="bg-gradient-to-r from-teal-600 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-teal-500/20 dark:shadow-none hover:-translate-y-0.5 active:scale-95 transition-all">
+                        Shop Core Trends
+                    </a>
+                    <a href="#gadgets" class="glass dark:bg-slate-900/60 font-semibold px-8 py-4 rounded-xl shadow-md hover:bg-slate-100/50 dark:hover:bg-slate-800/50 hover:-translate-y-0.5 active:scale-95 transition-all">
+                        Browse Entire Line
+                    </a>
+                </div>
+            </article>
+
+            <!-- Parallax Interactive Visual Box -->
+            <div id="parallax-container" class="w-full lg:w-1/2 max-w-lg aspect-square glass rounded-3xl relative overflow-hidden flex items-center justify-center border shadow-2xl animate-float-slow group cursor-crosshair">
+                <div class="absolute inset-0 bg-gradient-to-tr from-teal-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div id="parallax-bg" class="absolute inset-0 border-2 border-dashed border-teal-500/20 dark:border-slate-700 m-8 rounded-2xl transition-transform duration-200 ease-out"></div>
+                <div id="parallax-item" class="text-center transition-transform duration-300 ease-out z-10">
+                    <div class="text-8xl mb-6 select-none drop-shadow-2xl filter group-hover:scale-110 transition-transform duration-500">🚀</div>
+                    <span class="block tracking-widest text-xs font-black uppercase text-teal-600 dark:text-teal-400 mb-1">Interactive Environment</span>
+                    <h4 class="text-2xl font-black text-slate-800 dark:text-slate-200">Next-Gen Ecosystem</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Statistics / Counters Section -->
+        <section id="stats" class="scroll-mt-28 glass rounded-3xl p-8 sm:p-12 border shadow-lg relative overflow-hidden">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
+                <div class="space-y-2">
+                    <div class="text-4xl sm:text-5xl font-black text-teal-600 dark:text-teal-400 hash-stat" data-target="99.4">0%</div>
+                    <p class="text-xs font-bold tracking-wider uppercase text-slate-500">Positive Feedback</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-4xl sm:text-5xl font-black text-cyan-600 dark:text-cyan-400 hash-stat" data-target="64">0</div>
+                    <p class="text-xs font-bold tracking-wider uppercase text-slate-500">Flagship Units</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-4xl sm:text-5xl font-black text-indigo-600 dark:text-indigo-400 hash-stat" data-target="140">0k+</div>
+                    <p class="text-xs font-bold tracking-wider uppercase text-slate-500">Global Orders</p>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-4xl sm:text-5xl font-black text-emerald-600 dark:text-emerald-400 hash-stat" data-target="24">0hr</div>
+                    <p class="text-xs font-bold tracking-wider uppercase text-slate-500">Dispatch Guarantee</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Section (Enhanced layout with custom card hovers) -->
+        <section id="trending" class="scroll-mt-28 space-y-12">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2 text-teal-500 text-sm font-bold tracking-widest uppercase">
+                        <span>🔥</span> Highly Contested Releases
+                    </div>
+                    <h3 class="text-3xl sm:text-4xl font-black tracking-tight">The Trending Core</h3>
+                </div>
+                <p class="text-slate-600 dark:text-slate-400 max-w-sm text-sm leading-relaxed">
+                    High demand, limited batch windows. These absolute must-haves define modern premium workflows.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Trending item 1 -->
+                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md border dark:border-slate-800/80 flex flex-col hover:shadow-xl hover:shadow-teal-500/5 transition-all duration-300">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="img/Afire_tv.jpg" alt="Quantum Smartwatch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
+                        <span class="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full uppercase">HOT BATCH</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <h4 class="text-xl font-bold tracking-tight group-hover:text-teal-500 transition-colors">amazon firetv stick 4K MAX</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">The Amazon Fire TV Stick 4K Max features a 2.0 GHz processor, 16GB of storage, and Wi-Fi 6E for smooth 4K streaming with Dolby Vision and Dolby Atmos.</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t dark:border-slate-800">
+                            <span class="text-xl font-black text-slate-900 dark:text-slate-50">UGX 70,000</span>
+                            <button onclick="openQuickView('amazon firetv stick4K MAX', 'img/Afire_tv.jpg','The Amazon Fire TV Stick 4K Max is the most powerful 4K streaming stick available')" class="bg-slate-900 dark:bg-slate-800 hover:bg-teal-600 dark:hover:bg-teal-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">Quick View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending item 2 -->
+                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md border dark:border-slate-800/80 flex flex-col hover:shadow-xl hover:shadow-cyan-500/5 transition-all duration-300">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="img/Tn.jpg" alt="Sonic Buds Pro" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
+                        <span class="absolute top-4 left-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full uppercase">BESTSELLER</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <h4 class="text-xl font-bold tracking-tight group-hover:text-cyan-500 transition-colors">iDino NOTEBOOK NOVA</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">A budget 2-in-1 Android tablet/laptop hybrid featuring a 10-inch high-definition display, 5G connectivity and a large 10,000mAh battery</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t dark:border-slate-800">
+                            <span class="text-xl font-black text-slate-900 dark:text-slate-50">UGX 350,000</span>
+                            <button onclick="openQuickView('Sonic Buds Pro+', 'img/TS11.jpg', 'The AirTab S11 Ultra is a budget-friendly 10.1-inch Android bundle featuring a 10,000mAh battery, massive advertised 1TB storage, and a free keyboard and mouse kit.', '$179.99')" class="bg-slate-900 dark:bg-slate-800 hover:bg-cyan-600 dark:hover:bg-cyan-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">Quick View</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending item 3 -->
+                <div class="group relative bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-md border dark:border-slate-800/80 flex flex-col hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300">
+                    <div class="relative aspect-[4/3] overflow-hidden">
+                        <img src="img/Ahead_phones.jpg" alt="Aero Hub" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
+                        <span class="absolute top-4 left-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-[10px] font-black tracking-widest px-3 py-1 rounded-full uppercase">LIMITED EDITION</span>
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div>
+                            <h4 class="text-xl font-bold tracking-tight group-hover:text-indigo-500 transition-colors">oraimo BoomPop Lite</h4>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">The oraimo BoomPop Lite ENC (OHP-317) are affordable, wireless over-ear headphones that deliver deep bass, clear hands-free calling with environmental noise cancellation (ENC), and an exceptional battery life of up to 65 hours.</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t dark:border-slate-800">
+                            <span class="text-xl font-black text-slate-900 dark:text-slate-50">UGX 120,000</span>
+                            <button onclick="openQuickView('Aero Wireless Hub', 'img/Ahead_phones.jpg', 'The oraimo BoomPop Lite features a 65-hour battery, HavyBass sound, ENC calls, and a foldable Bluetooth/wired design.', '$99.99')" class="bg-slate-900 dark:bg-slate-800 hover:bg-indigo-600 dark:hover:bg-indigo-600 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors">Quick View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- All Gadgets Grid (35 items with modern layout, high performance images & intersection observation loading) -->
+        <section id="gadgets" class="scroll-mt-28 space-y-12">
+            <div class="text-center space-y-3">
+                <h3 class="text-3xl sm:text-5xl font-black tracking-tight">The Ecosystem Roster</h3>
+                <p class="text-slate-600 dark:text-slate-400 max-w-xl mx-auto text-sm leading-relaxed">
+                    Delve into our exhaustive structural matrix consisting of exactly 35 high-fidelity consumer peripherals. Built to outlast trends.
+                </p>
+            </div>
+            
+            <!-- Target Destination Grid for Lazy/Scroll Animation Generation -->
+            <div id="gadget-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+        </section>
+
+        <!-- Enhanced Interactive Contact Section -->
+        <section id="contact" class="scroll-mt-28 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 space-y-6">
+                <div class="text-xs font-black tracking-widest text-teal-500 uppercase">TELEMETRY DECK</div>
+                <h3 class="text-3xl sm:text-4xl font-black tracking-tight">Connect with us</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Have precise technical questions regarding hardware latency, component warranties, or custom enterprise shipping arrays? Let's discuss your requirements.
+                </p>
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-500 text-sm">📍</span>
+                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Location : B127 Kisa Kya Maria, William Street, KLA</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="w-8 h-8 rounded-lg bg-teal-500/10 flex items-center justify-center text-teal-500 text-sm">✉️</span>
+                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">email : nakittohalima@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7">
+                <form id="contact-form" class="glass p-8 rounded-3xl border shadow-xl space-y-4 relative overflow-hidden">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-[11px] uppercase font-black text-slate-500 tracking-wide" for="first-name">Given Identity</label>
+                            <input class="w-full p-3 rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all" type="text" id="first-name" required placeholder="Halima">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] uppercase font-black text-slate-500 tracking-wide" for="last-name">Family Identity</label>
+                            <input class="w-full p-3 rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all" type="text" id="last-name" required placeholder="Saeed">
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[11px] uppercase font-black text-slate-500 tracking-wide" for="email">Digital Routing Node (Email)</label>
+                        <input class="w-full p-3 rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all" type="email" id="email" required placeholder="you@tech.world">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[11px] uppercase font-black text-slate-500 tracking-wide" for="message">Transmission Payloads</label>
+                        <textarea class="w-full p-3 rounded-xl bg-slate-100/50 dark:bg-slate-900/50 border dark:border-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 h-28 resize-none transition-all" id="message" required placeholder="Describe the innovation parameters..."></textarea>
+                    </div>
+                    <button class="w-full bg-slate-950 dark:bg-slate-50 text-slate-50 dark:text-slate-950 font-bold p-3.5 rounded-xl hover:bg-teal-600 dark:hover:bg-teal-500 dark:hover:text-white text-xs uppercase tracking-widest shadow-md transition-all duration-300 transform active:scale-98" type="submit">
+                        Transmit Inquiry Securely
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Professional Footer Section -->
+    <footer class="bg-slate-950 text-slate-400 border-t border-slate-900 text-sm mt-32 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 py-12 space-y-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-900">
+                <div class="text-center md:text-left space-y-1">
+                    <h2 class="text-xl font-black text-white tracking-widest">HALIMA GADGETS</h2>
+                    <p class="text-xs text-slate-500">Autonomous design systems. Empowering digital frontiers since 2024.</p>
+                </div>
+                <div class="flex gap-6 text-xs font-bold tracking-wide uppercase">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Infrastructure</a>
+                    <a href="#" class="hover:text-white transition-colors">Node Protocols</a>
+                </div>
+            </div>
+            <div class="text-center text-xs text-slate-600 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p>&copy; 2026 Halima Innovations. All systems operational. Made with modern glassmorphism UI structures.</p>
+                <p class="font-mono text-[10px] bg-slate-900 px-3 py-1 rounded-full text-slate-500">LATENCY: 14MS // SSL OPTIMIZED</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Universal Product Quick-View Structural Modal Component -->
+    <div id="quickview-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div class="glass max-w-lg w-full rounded-3xl overflow-hidden shadow-2xl border p-6 space-y-6 transform scale-95 transition-transform duration-300 relative">
+            <button onclick="closeQuickView()" class="absolute top-4 right-4 text-xl w-8 h-8 rounded-full bg-slate-200/50 dark:bg-slate-800/50 flex items-center justify-center hover:scale-105 active:scale-95 transition-transform font-bold">&times;</button>
+            <div class="aspect-video w-full rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <img id="modal-image" src="" alt="Modal Asset Preview" class="w-full h-full object-cover">
+            </div>
+            <div class="space-y-2">
+                <h4 id="modal-title" class="text-2xl font-black tracking-tight">Product Title</h4>
+                <p id="modal-desc" class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Detailed technical description will render here dynamically.</p>
+            </div>
+            <div class="flex items-center justify-between pt-4 border-t dark:border-slate-800">
+                <span id="modal-price" class="text-2xl font-black text-teal-500">$0.00</span>
+                <button onclick="closeQuickView()" class="bg-teal-600 text-white font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider hover:bg-teal-500 transition-colors">Commit to Allocation</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Runtime Execution Logic Engine Scripts -->
+    <script>
+        // --- Dark / Light Mode Core Controller ---
+        const toggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        toggleBtn.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            themeIcon.textContent = isDark ? '🌙' : '☀️';
+            localStorage.setItem('halima-theme-v2', isDark ? 'dark' : 'light');
+        });
+
+        // Initialize Theme from historical local state payload
+        if (localStorage.getItem('halima-theme-v2') === 'light') {
+            document.documentElement.classList.remove('dark');
+            themeIcon.textContent = '☀️';
+        }
+
+        // --- Mobile Menu Toggle ---
+        const burgerBtn = document.getElementById('mobile-open-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        burgerBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+
+        // --- Scroll Tracking Progress Pipeline ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        // --- Mouse Coordinate Parallax Engine ---
+        const prlxContainer = document.getElementById('parallax-container');
+        const prlxBg = document.getElementById('parallax-bg');
+        const prlxItem = document.getElementById('parallax-item');
+
+        prlxContainer.addEventListener('mousemove', (e) => {
+            const rect = prlxContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left - (rect.width / 2);
+            const y = e.clientY - rect.top - (rect.height / 2);
+            
+            // Apply divided structural dampening multipliers
+            prlxBg.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
+            prlxItem.style.transform = `translate(${x * -0.04}px, ${y * -0.04}px) scale(1.02)`;
+        });
+
+        prlxContainer.addEventListener('mouseleave', () => {
+            prlxBg.style.transform = 'translate(0px, 0px)';
+            prlxItem.style.transform = 'translate(0px, 0px) scale(1)';
+        });
+
+        // --- Statistics Incremental Counting Simulation ---
+        const initCounters = () => {
+            const stats = document.querySelectorAll('.hash-stat');
+            stats.forEach(stat => {
+                const target = parseFloat(stat.getAttribute('data-target'));
+                let current = 0;
+                const speed = target / 60; // 60 frame budget
+                
+                const update = () => {
+                    current += speed;
+                    if(current < target) {
+                        stat.textContent = target % 1 === 0 ? Math.floor(current) : current.toFixed(1);
+                        requestAnimationFrame(update);
+                    } else {
+                        // Append original string formatting suffixes
+                        if(target === 99.4) stat.textContent = '99.4%';
+                        else if(target === 140) stat.textContent = '140k+';
+                        else if(target === 24) stat.textContent = '24hr';
+                        else stat.textContent = target;
+                    }
+                };
+                update();
+            });
+        };
+
+        // --- Complete Unsplash Mapping Array for 35 Distinct Items ---
+        const techImages = [
+                "img/Afire_tv.jpg",//1
+                "img/bl.jpg",//2n
+                "img/blj.jpg",//3n
+                "img/Ahead_phones.jpg",//4
+                "img/Bpods.jpg",//5
+                "img/buds_R50i.jpg",//6
+                "img/buds.jpg",//7n
+                "img/Buds4.jpg",//8n
+                "img/BudsA4.jpg",//9n
+                "img/BudsA6.jpg",//10n
+                "img/EB.jpg",//11
+                "img/head_sets.jpg",//12
+                "img/HS1.jpg",//13
+                "img/space_buds.jpg",//14
+                "img/speaker.jpg",//15
+                "img/soundCore_V20i.jpg",//16
+                "img/watch_fit3.jpg",//17
+                "img/watch5.jpg",//18
+                "img/WST13.jpg",//19
+                "img/Wband.jpg",//20n
+                "img/Wnova.jpg",//21n
+                "img/C65W.jpg",//22n**
+                "img/C2.jpg",//23n**
+                "img/C1.jpg",//24n
+                "img/TBvot.jpg",//25n**
+                "img/THL.jpg",//26n**
+                "img/TAX8.jpg",//27n**
+                "img/TL.jpg",//28n**
+                "img/TMT.jpg",//29n**
+                "img/TMF982.jpg",//30n**
+                "img/ZTE.jpg",//31n**
+                "img/Tglo.jpg",//32n**
+                "img/TV.jpg",//33n**
+                "img/mifi.jpg",//34n
+                "img/ST.jpg",//35n
+                "img/SC.jpg",//36n
+                "img/TG.jpg",//37n
+                "img/Tgold.jpg",//38n**
+                "img/Tn.jpg",//39n**
+                "img/Tair_tab_s26.jpg",//40
+                "img/TBebe_tab.jpg",//41
+                "img/T7.jpg",//42n
+                "img/T8.jpg",//43n//
+                "img/TB88.jpg",//44n
+                "img/Tpadx.jpg",//45n
+                "img/Taction.jpg",//46n**
+                "img/TM128.jpg",//47
+                "img/TM133.jpg",//48
+                "img/TM796.jpg",//49
+                "img/Tneo_tab.jpg",//50
+                "img/TS11.jpg",//51
+                "img/LS-620.jpg",//52n**
+                "img/LS-810.jpg",//53n**
+                "img/LS930.jpg",//54
+                "img/mouse.jpg",//55
+                "img/P2kmAh.jpg",//56
+                "img/P130w.jpg",//57
+                "img/pb.jpg",//58
+                "img/Pmag_power.jpg",//59
+                "img/power.jpg",//60
+                "img/powerbank_mi.jpg",//61
+                "img/P10k2.jpg",//62
+                "img/Pextention.jpg",//63
+                "img/toplink.jpg"//64
+            ];
+
+            const combinedProducts = [
+                "amazon FireStick ",
+                "oraimo Blender ",
+                "oraimo Juicer ",
+                "oraimo BoomPop ",
+                "oraimo spacebuds ",
+                "oraimo spacebuds_neo ",
+                "oraimo wireless_buds ",
+                "oraimo buds ",
+                "HainoTeko Air-4 ",
+                "HainoTeko Air-6 ",
+                "oraimo buds ",
+                "oraimo Stereo_Earbuds ",
+                "oraimo EarBuds ",
+                "oraimo wireless_buds ",
+                "oraimo Speaker ",
+                "oraimo Ear_buds ",
+                "Galaxy fit3 ",
+                "Redmi Watch_5 ",
+                "modio ST13 ",
+                "Xiaomi Smart Band ",
+                "oraimo Watch Nova2 ",
+                "oraimo 65W Charger ",
+                "oraimo 120W charger ",
+                "oraimo 69W Dual Charge ",
+                "Bvot 4G LTE router ",
+                "Highlink 4G Router Pro2 ",
+                "OLAX_AX8 PRO ",
+                "TOPLiNK ",
+                "MT30 ",
+                "MF982 ",
+                "ZTE",
+                "glofi_F8",
+                "R219T",
+                "MTN 4G MIFI",
+                "oraimo Smart Trimmer",
+                "oraimo Smart shaver",
+                "oraimo GoShave",
+                "iDino_NOTEBOOK-GOLD",
+                "iDino_NOTEBOOK-NOVA",
+                "AirTab S26 Ultra",
+                "BeBeTab B205A4040",
+                "BeBeTab Schoolmate7",
+                "BeBeTab Schoolmate8",
+                "BeBeTab 188-spider",
+                "iDino PadX-5",
+                "iDino Action",
+                "Modio M128",
+                "Modio M796",
+                "Modio M128",
+                "iDino notebook3",
+                "AirTab Air8",
+                "LS-620",
+                "LS-810",
+                "LS 930",
+                "Xioami mouse",
+                "oraimo_powerbank 20kmAh",
+                "oraimo_powerbank 130W_ultra Fast",
+                "oraimo_powerbank 10kmAh",
+                "oraimo_powerbank 10kmAh",
+                "oraimo_powerbank 20kmAh",
+                "Redmi powerbank 20kmAh",
+                "oraimo portable 10000mAh",
+                "oraimo Extention cable",
+                "TopLink Mobile Cell signal Booster pro2"
+                ];
+
+        const descriptions = [
+            "High resolution visual immersion node.",
+            "Hardened stainless-srell blades combined with a powerful 500W peak power motor",
+            "High yield juicer for nutrient-rich juice",
+            "Premium acoustics with active noise cancelling.",      // 0: Video / Display
+            "Premium acoustic signature profile.", 
+            "Slick, long battery life,portable and water proof", 
+            "Native iOs, Secure Data, built-in Buzzer water proof and long battery life",
+            "AirBuds 4 with ENC calls, smart LED display, app control, Bluetooth listening and up to 38-hour playtime",
+            "Equipped with the latest Bluetooth technology that provide a fast stabblw connection with low lantency",
+            "Equipped with a multi-functional touch control, Air-6 earphones allow you to manageyour audio settings",
+            "Open to full transparency, 36-hour long playtime,HD voice in calls IPXS waterproof",
+            "30 hour playtime, dual device connection and active noise cancellation", 
+            "Premium sound, thickened Cable, crystal-clar calls",
+            "Immersive sound everywhwere", 
+            "Thunderous bass with infinite lights",  
+            "Anker AeroFit open Ear headphones",
+            "instant notification media controls and up to 13 days on a single charge",
+            "Stylish square screen with a wider viewing area",
+            "Android-based 4G smartwatch that effectively functions as a wearable phone",
+            "With precision tracking, a vivid AMOLED display, light weight comfort and advanced sensors",
+            "Monitors heart rate, blood oxygen, stress and sleep to keep you informed and support a healthier lifestyle",
+            "Equipped with a 1000W Type-C to Type-C fast charging cable that charges a range of devices while reducing the risk of overheating and overcurrent",
+            "Ultra fast 4-port charging station utilizing Gallium Nitride(GaN) technology",
+            "Delivers ultra-fast dual-port charging for phones, tablets and gadgets",
+            "Universal plug-and-play device that support any local SIM  card to create high-speed Wi-Fi hotspots",
+            "A plug-and-play LTE Cat4 router designed for homes and offices",
+            "Portable 4G LTE Wi-Fi 6 router ideal for homes, offices and remote locations",
+            "Portable plug-and-play hotspot that let you share 4G LTE internet across mulitiple devices",
+            "Versatile 2-in-1 portable 4G LTE wireless router and MiFi",
+            "Pocket-sized 4G LTE mobile router that shares internet via WiFi",
+            "Enables you to create personal hotspots by converting 4G callular data into a secure local wireless netork",
+            "A 3-in-1 portable USB odem, wireless router and Wi-Fi hotsport",
+            "Creates a personal, secure wireless hotspot using a standard cellular SIM CARD",
+            "A potable 4G router that can support up to 10 connected devices",
+            "The tempered steel blades offer enduring sharpness and durability, delivering smooth, precise cuts",
+            "Cordless electric trimmer, powerful high speed motor with precision cutting blades",
+            "A versatile grooming device designed to deliver smooth, precise shaving and trimming",
+            "A versatile, budget-friendly 10-inch Android tablet with a keyboard, case, mouse and stylus",
+            "A budget-friendlt 10.1-inch Android tablet",
+            "Budget-friendly, high-capacity Android device",
+            "Popular Android-based educational device",
+            "Popular 10-inch Android tablet built for children's educational and entertainment needs",
+            "Affordable 10.1-inch Android 15 tablet",
+            "Affordable 10.1-inch Android tablet designed for edutainment, media consumption and basic productivity",
+            "Popular 10.1-inch Android tablet for kid's learning and edutainment",
+            "Affordable 10.1-inch Android 15 tablet",
+            "Popular 8-inch Android tablet for kid's learning and edutainment",
+            "7-inch Android educational tablet designed for children",
+            "8-inch Android educational tablet designed for children with 6Gb of RAM, 256GB of storage and 5G/WI-FI",
+            "Budget-friendly 2 in 1 Android tablet that includes a detachable keyboard",
+            "8-inch, 5G Enabled Android tablet",
+            "Desktop Telephone that supports 2 SIM cards with a working frequency GSM 900/1800MHZ",
+            "Easy to setup  with no ground wire needed",
+            "Caller ID diplay, Dual SIM,SMS messaging capabilities",// 1: Audio
+            "Minimalistic aesthetics, silent clicking and dual-mode connectivity",        // 2: Power / Cables
+            "Reliable, extended backups for multi-day trips and frequet power outages",       // 3: Wearables / Fitness
+            "Can easily charge laptops, tablets and smartphones",        // 4: Cases
+            "Highly portable device ideal for topping up smartphones 2 to 3 times",           // 5: Drones
+            "Highly portable device ideal for topping up smartphones",    // 6: Network / Wireless
+            "Delivers extented, off-grid power featuring dual USB-A outputs and dual Micro-USB/Type-C inputs",          // 7: Input / Peripherals
+             "With 3 AC outlets and 3 USB high-speed charging ports",       // 8: Tablets / Screens
+             "A high performance repeater designed to eliminate dropped calls and enhance internet speeps"             // 9: Camera / Optics
+            ];
+         // Ensure prices is defined (uncommented)
+const prices = [
+    70000,150000,120000,120000,//1
+    100000,95000,150000,120000,//2
+    95000,100000,150000,100000,//3
+    25000,95000,250000,150000,//4
+    200000,210000,150000,230000,//5
+    120000,100000,85000,90000,//6
+    230000,150000,250000,210000,//7
+    280000,150000,85000,100000,//8
+    120000,95000,120000,180000,//9
+    120000,350000,350000,380000,//10
+    350000,250000,300000,280000,//11
+    250000,380000,260000,250000,//12
+    250000,350000,360000,150000,//13
+    120000,150000,85000,120000,//14
+    250000,100000,120000,100000,//15
+    150000,85000,100000,680000//16
+];
+
+const grid = document.getElementById('gadget-grid');
+
+for (let i = 0; i < 64; i++) {
+    const baseProduct = combinedProducts[i % combinedProducts.length];
+    const name = `${baseProduct} X${(i + 1).toString().padStart(2, '0')}`;
+   // const name = `${prefixes[i % prefixes.length]} ${suffixes[i % suffixes.length]} X${(i + 1).toString().padStart(2, '0')}`;
+    const desc = descriptions[i % descriptions.length];
+    const imgUrl = techImages[i] || techImages[0];
+    
+    // SAFE FALLBACK: Checks if prices array exists and has items before using it
+        // 1. Calculate the raw number
+    const rawPrice = (typeof prices !== 'undefined' && prices.length > 0) 
+        ? prices[i % prices.length] 
+        : 150000;
+
+// 2. Format with commas (e.g., 230,000)
+    const formattedPrice = rawPrice.toLocaleString();
+
+    const card = `
+    <div class="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border dark:border-slate-800/80 p-4 shadow-sm flex flex-col justify-between space-y-4 opacity-0 translate-y-8 transition-all duration-700 ease-out scroll-reveal-card group hover:shadow-lg dark:hover:border-slate-700">
+        <div class="relative aspect-square w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
+            <img src="${imgUrl}" alt="${name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+        </div>
+        <div class="space-y-1">
+            <h4 class="font-bold tracking-tight text-slate-900 dark:text-slate-100 truncate">${name}</h4>
+            <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">${desc}</p>
+        </div>
+        <div class="flex items-center justify-between pt-2 border-t dark:border-slate-800">
+            <!-- UGX is now positioned before the price -->
+            <span class="text-[15px] font-black text-slate-900 dark:text-slate-50">UGX ${formattedPrice}</span>
+            
+            <!-- Updated the string passed into your quick view function as well -->
+            <button onclick="openQuickView('${name}', '${imgUrl}', '${desc}', 'UGX ${formattedPrice}')" class="bg-slate-100 dark:bg-slate-800 hover:bg-teal-600 dark:hover:bg-teal-600 hover:text-white dark:text-slate-300 dark:hover:text-white text-[11px] font-bold tracking-wide uppercase px-3.5 py-2 rounded-lg transition-colors">Details</button>
+        </div>
+    </div>
+`;
+grid.insertAdjacentHTML('beforeend', card);
+    
+}
+        
+
+        // --- Intersection Observer Animations & Metric Trigger Strategy ---
+        let triggeredCounters = false;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // If target section is the statistics container, trigger counter sequence
+                    if (entry.target.id === 'stats' && !triggeredCounters) {
+                        initCounters();
+                        triggeredCounters = true;
+                    }
+                    // Generic scroll reveal logic implementation
+                    entry.target.classList.remove('opacity-0', 'translate-y-8');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        // Bind intersection observers across procedural DOM collections
+        document.querySelectorAll('.scroll-reveal-card').forEach(card => observer.observe(card));
+        observer.observe(document.getElementById('stats'));
+
+        // --- Quick View Modal Engine Controllers ---
+        const modal = document.getElementById('quickview-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalImg = document.getElementById('modal-image');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalPrice = document.getElementById('modal-price');
+
+        function openQuickView(title, img, desc, price) {
+            modalTitle.textContent = title;
+            modalImg.src = img;
+            modalDesc.textContent = `${desc} Engineered directly to meet rigorous consumer operational parameters. Features unified next-gen firmware architecture stack out-of-the-box.`;
+            modalPrice.textContent = price;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.firstElementChild.classList.remove('scale-95');
+            }, 20);
+        }
+
+        function closeQuickView() {
+            modal.classList.add('opacity-0');
+            modal.firstElementChild.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Intercept form submissions to provide a visual interactive toast simulation
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('🔒 Payload Transmitted Successfully over secure network layer.');
+            e.target.reset();
+        });
+    </script>
+    <!-- Premium WhatsApp Floating Button -->
+<div class="fixed bottom-6 right-6 z-50 flex items-center gap-3 group">
+
+    <!-- Tooltip -->
+    <div class="
+        hidden sm:flex
+        items-center
+        bg-white/90 dark:bg-zinc-900/90
+        backdrop-blur-lg
+        px-4 py-3
+        rounded-2xl
+        shadow-xl
+        border border-white/20 dark:border-zinc-700
+        opacity-0
+        translate-x-5
+        group-hover:opacity-100
+        group-hover:translate-x-0
+        transition-all
+        duration-300
+    ">
+        <div>
+            <p class="font-semibold text-slate-800 dark:text-white">
+                Need Help?
+            </p>
+            <p class="text-xs text-slate-500 dark:text-zinc-400">
+                Chat with us on WhatsApp
+            </p>
+        </div>
+    </div>
+
+    <!-- Button Container -->
+    <div class="relative">
+
+        <!-- Pulse Ring -->
+        <span class="
+            absolute
+            inset-0
+            rounded-full
+            bg-green-500
+            animate-ping
+            opacity-20
+        "></span>
+
+        <!-- Secondary Ring -->
+        <span class="
+            absolute
+            -inset-2
+            rounded-full
+            border-2
+            border-green-400/40
+        "></span>
+
+        <!-- WhatsApp Button -->
+        <a
+            href="https://wa.me/256706522166"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat on WhatsApp"
+            class="
+                relative
+                flex
+                items-center
+                justify-center
+                w-16
+                h-16
+                rounded-full
+                bg-gradient-to-br
+                from-green-400
+                to-green-600
+                shadow-[0_10px_30px_rgba(34,197,94,0.45)]
+                hover:shadow-[0_15px_40px_rgba(34,197,94,0.6)]
+                hover:scale-110
+                active:scale-95
+                transition-all
+                duration-300
+            "
+        >
+
+            <!-- Notification Badge -->
+            <span class="
+                absolute
+                -top-1
+                -right-1
+                w-5
+                h-5
+                bg-red-500
+                rounded-full
+                border-2
+                border-white
+                flex
+                items-center
+                justify-center
+                text-[10px]
+                font-bold
+                text-white
+            ">
+                
+            </span>
+
+            <!-- WhatsApp Icon -->
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 32 32"
+                class="w-9 h-9 fill-white"
+            >
+                <path d="M19.11 17.24c-.27-.14-1.61-.8-1.86-.89-.25-.09-.43-.14-.61.14-.18.27-.7.89-.86 1.07-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.18-1.34-.81-.72-1.36-1.61-1.52-1.88-.16-.27-.02-.42.12-.56.13-.13.27-.32.41-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.01-.22-.54-.45-.46-.61-.47h-.52c-.18 0-.48.07-.73.34-.25.27-.95.93-.95 2.26s.98 2.61 1.11 2.79c.14.18 1.92 2.93 4.65 4.11.65.28 1.15.45 1.55.58.65.21 1.24.18 1.71.11.52-.08 1.61-.66 1.84-1.29.23-.63.23-1.16.16-1.29-.07-.14-.25-.2-.52-.34z"/>
+                <path d="M16.02 3C8.84 3 3 8.84 3 16c0 2.53.74 4.99 2.13 7.09L3 29l6.11-2.09A12.95 12.95 0 0 0 16.02 29C23.18 29 29 23.16 29 16S23.18 3 16.02 3zm0 23.64c-2.13 0-4.21-.57-6.02-1.65l-.43-.26-3.63 1.24 1.22-3.54-.28-.45A10.6 10.6 0 0 1 5.38 16c0-5.87 4.77-10.64 10.64-10.64S26.66 10.13 26.66 16s-4.77 10.64-10.64 10.64z"/>
+            </svg>
+        </a>
+    </div>
+</div>
+<div id="wa-message"
+class="fixed bottom-28 right-6 z-40 bg-white dark:bg-zinc-900 shadow-2xl rounded-2xl p-4 max-w-xs animate-bounce">
+    <p class="text-sm font-medium text-slate-800 dark:text-white">
+        👋 Welcome to Halima Gadgets!
+    </p>
+    <p class="text-xs text-slate-500 mt-1">
+        Have questions? Chat with us instantly on WhatsApp.
+    </p>
+</div>
+</body>
+</html>
